@@ -51,6 +51,10 @@ Using with Django
 -----------------
 If you want to use it with Django, go to `django-bmemcached <https://github.com/jaysonsantos/django-bmemcached>`_ to get a Django backend.
 
-Tests Status
-------------
-.. image:: https://travis-ci.org/jaysonsantos/python-binary-memcached.png?branch=master
+Tests Status Master
+-------------------
+.. image:: https://travis-ci.org/underrun/python-binary-memcached.png?branch=master
+
+Test Status Dev
+---------------
+.. image:: https://travis-ci.org/underrun/python-binary-memcached.png?branch=dev
