@@ -1,3 +1,4 @@
+import sys
 import logging
 from bmemcached.protocol import Protocol
 
@@ -8,12 +9,16 @@ except ImportError:
 
 logger = logging.getLogger(__name__)
 
+# Python2/3 compatibility
+if sys.version_info[0] != 2:
+    basestring = str
 
 class Client(object):
     """
     This is intended to be a client class which implement standard cache interface that common libs do.
     """
-    def __init__(self, servers=['127.0.0.1:11211'], username=None, password=None):
+    def __init__(self, servers=['127.0.0.1:11211'], username=None,
+                 password=None, compression=None):
         """
         :param servers: A list of servers with ip[:port] or unix socket.
         :type servers: list
@@ -24,12 +29,14 @@ class Client(object):
         """
         self.username = username
         self.password = password
+        self.compression = compression
         self.set_servers(servers)
 
     @property
     def servers(self):
         for server in self._servers:
-            yield Protocol(server, self.username, self.password)
+            yield Protocol(
+                    server, self.username, self.password, self.compression)
 
     def set_servers(self, servers):
         """
