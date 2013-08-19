@@ -25,6 +25,10 @@ class MemcachedTests(unittest.TestCase):
             b'test_key': b'value',
             b'test_key2': b'value2'}))
 
+    def testSetMultiBigData(self):
+        self.client.set_multi(dict(
+                (unicode(k).encode(), b'value') for k in range(1000000)))
+
     def testGet(self):
         self.client.set(b'test_key', b'test')
         self.assertEqual(b'test', self.client.get(b'test_key'))
