@@ -6,6 +6,7 @@ try:
     long
 except NameError:
     long = int
+    unicode = str
 
 class MemcachedTests(unittest.TestCase):
     def setUp(self):
