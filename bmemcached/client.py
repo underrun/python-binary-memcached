@@ -13,7 +13,8 @@ class Client(object):
     """
     This is intended to be a client class which implement standard cache interface that common libs do.
     """
-    def __init__(self, servers=['127.0.0.1:11211'], username=None, password=None):
+    def __init__(self, servers=['127.0.0.1:11211'], username=None,
+                 password=None, compression=None):
         """
         :param servers: A list of servers with ip[:port] or unix socket.
         :type servers: list
@@ -24,12 +25,14 @@ class Client(object):
         """
         self.username = username
         self.password = password
+        self.compression = compression
         self.set_servers(servers)
 
     @property
     def servers(self):
         for server in self._servers:
-            yield Protocol(server, self.username, self.password)
+            yield Protocol(
+                    server, self.username, self.password, self.compression)
 
     def set_servers(self, servers):
         """
@@ -82,7 +85,7 @@ class Client(object):
                     break
         return d
 
-    def set(self, key, value, time=100):
+    def set(self, key, value, time=0):
         """
         Set a value for a key on server.
 
@@ -101,7 +104,7 @@ class Client(object):
 
         return any(returns)
 
-    def set_multi(self, mappings, time=100):
+    def set_multi(self, mappings, time=0):
         """
         Set multiple keys with it's values on server.
 
@@ -119,7 +122,7 @@ class Client(object):
 
         return all(returns)
 
-    def add(self, key, value, time=100):
+    def add(self, key, value, time=0):
         """
         Add a key/value to server ony if it does not exist.
 
@@ -138,7 +141,7 @@ class Client(object):
 
         return any(returns)
 
-    def replace(self, key, value, time=100):
+    def replace(self, key, value, time=0):
         """
         Replace a key/value to server ony if it does exist.
 
